@@ -1,5 +1,5 @@
 # Project Nexus — Black-Scholes Option Pricing Tool
-
+Live Demo: https://thatayotlhe04.github.io/Project_Nexus/
 Project Nexus is a clean, academic-style web application that implements the **Black-Scholes model** for pricing **European call and put options**.  
 It is designed as an educational and research-oriented tool, emphasizing clarity, mathematical correctness, and usability.
 
@@ -127,3 +127,4 @@ Built by Thatayotlhe Tsenang
 
 This project is released for educational use.  
 Commercial or production use should be evaluated independently.
+
