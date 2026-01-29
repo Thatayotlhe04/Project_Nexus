@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Nexus - Black-Scholes Option Pricing</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Toggle Button (appears when sidebar is collapsed) -->
+    <div class="sidebar-toggle-floating" id="sidebar-toggle-floating">
+        <span class="toggle-icon">◆</span>
+    </div>
+
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo" id="sidebar-toggle">
+                    <span class="logo-icon">◆</span>
+                    <span class="logo-text">Project<br>Nexus</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <a href="#main-content" class="nav-link active" data-section="calculator">
+                        <span class="nav-icon">⚙</span>
+                        <span class="nav-text">Calculator</span>
+                    </a>
+                </div>
+
+                <div class="nav-divider"></div>
+
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Resources</h3>
+                    <a href="#faq-section" class="nav-link" data-toggle="faq">
+                        <span class="nav-icon">?</span>
+                        <span class="nav-text">FAQ</span>
+                    </a>
+                    <a href="#about-section" class="nav-link" data-toggle="about">
+                        <span class="nav-icon">ℹ</span>
+                        <span class="nav-text">About</span>
+                    </a>
+                </div>
+
+                <div class="nav-divider"></div>
+
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Support</h3>
+                    <a href="#contact-section" class="nav-link" data-toggle="contact">
+                        <span class="nav-icon">✉</span>
+                        <span class="nav-text">Contact</span>
+                    </a>
+                    <a href="#feedback-section" class="nav-link" data-toggle="feedback">
+                        <span class="nav-icon">★</span>
+                        <span class="nav-text">Feedback</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p class="footer-version">v1.0</p>
+                <p class="footer-year">© 2026</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="app-container">
+            <header class="app-header">
+                <div class="header-content">
+                    <div class="header-title-group">
+                        <h1>OPTION PRICING CALCULATOR</h1>
+                    </div>
+                    
+                    <p class="tagline">European option valuation</p>
+                </div>
+            </header>
+
+        <main class="app-main">
+            <!-- Input & Output Section -->
+            <div class="calculator-layout">
+                <!-- Inputs Panel -->
+                <section class="panel input-panel">
+                    <h2 class="panel-title">Parameters</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="spotPrice">
+                                <span class="label-text">Spot Price</span>
+                                <span class="label-symbol">S</span>
+                            </label>
+                            <input type="number" id="spotPrice" value="100" step="0.01" min="0" placeholder="100">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="strikePrice">
+                                <span class="label-text">Strike Price</span>
+                                <span class="label-symbol">K</span>
+                            </label>
+                            <input type="number" id="strikePrice" value="100" step="0.01" min="0" placeholder="100">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="riskFreeRate">
+                                <span class="label-text">Risk-Free Rate</span>
+                                <span class="label-symbol">r</span>
+                            </label>
+                            <input type="number" id="riskFreeRate" value="0.05" step="0.01" min="0" max="1" placeholder="0.05">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="volatility">
+                                <span class="label-text">Volatility</span>
+                                <span class="label-symbol">σ</span>
+                            </label>
+                            <input type="number" id="volatility" value="0.2" step="0.01" min="0" max="2" placeholder="0.2">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="timeToMaturity">
+                                <span class="label-text">Time to Maturity</span>
+                                <span class="label-symbol">T (years)</span>
+                            </label>
+                            <input type="number" id="timeToMaturity" value="1" step="0.01" min="0" placeholder="1">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Results Panel -->
+                <section class="panel output-panel">
+                    <h2 class="panel-title">Results</h2>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-label">Call Option</div>
+                            <div class="result-value" id="callPrice">$0.0000</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-label">Put Option</div>
+                            <div class="result-value" id="putPrice">$0.0000</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Expandable Sections -->
+            <section class="info-section">
+                <button class="section-toggle" data-target="formula-section">
+                    <span class="toggle-label">Formula</span>
+                    <span class="toggle-icon">→</span>
+                </button>
+                <div id="formula-section" class="section-content collapsed">
+                    <div class="formula-group">
+                        <h3>Call Option Price</h3>
+                        <div class="formula-box">C = S₀ × N(d₁) − K × e<sup>−rT</sup> × N(d₂)</div>
+                    </div>
+                    <div class="formula-group">
+                        <h3>Put Option Price</h3>
+                        <div class="formula-box">P = K × e<sup>−rT</sup> × N(−d₂) − S₀ × N(−d₁)</div>
+                    </div>
+                    <div class="formula-group">
+                        <h3>Intermediate Terms</h3>
+                        <div class="formula-box">
+                            d₁ = [ln(S₀/K) + (r + σ²/2)T] / (σ√T)<br>
+                            d₂ = d₁ − σ√T<br>
+                            N(x) = Standard normal cumulative distribution function
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <button class="section-toggle" data-target="about-section">
+                    <span class="toggle-label">About</span>
+                    <span class="toggle-icon">→</span>
+                </button>
+                <div id="about-section" class="section-content collapsed">
+                    <h3>Overview</h3>
+                    <p>
+                        The Black-Scholes model is a mathematical framework for pricing European-style options. Developed by Fisher Black, Myron Scholes, and Robert Merton in the early 1970s, it calculates the theoretical value of options based on the underlying asset's spot price, strike price, time to expiration, risk-free interest rate, and volatility.
+                    </p>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <button class="section-toggle" data-target="assumptions-section">
+                    <span class="toggle-label">Assumptions</span>
+                    <span class="toggle-icon">→</span>
+                </button>
+                <div id="assumptions-section" class="section-content collapsed">
+                    <ul class="assumptions-list">
+                        <li>The underlying asset follows a geometric Brownian motion with constant drift and volatility.</li>
+                        <li>No dividends are paid during the life of the option.</li>
+                        <li>Markets are frictionless (no transaction costs or taxes).</li>
+                        <li>Trading is continuous with no restrictions.</li>
+                        <li>No arbitrage opportunities exist.</li>
+                        <li>The risk-free interest rate is constant and known.</li>
+                        <li>Options are European-style (exercised only at expiration).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                <strong>Educational Use Only</strong>
+                <p>This tool is for educational and research purposes. It should not be the sole basis for any investment decision. Option trading involves substantial risk and is not suitable for all investors.</p>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>&copy; 2026 Project Nexus. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Modal: FAQ -->
+    <div id="faq-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h3>What is the Black-Scholes model?</h3>
+                <p>The Black-Scholes model is a mathematical framework for pricing European-style options. It calculates theoretical option values based on spot price, strike price, risk-free rate, volatility, and time to expiration.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Why are my results different from other calculators?</h3>
+                <p>Differences may arise from rounding, different calculation methods, or input precision. This calculator uses the Abramowitz-Stegun approximation for the normal distribution, accurate to ~7 decimal places.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What do the Greek letters mean?</h3>
+                <p>S = Spot Price (current asset price), K = Strike Price, r = Risk-free rate, σ (sigma) = Volatility, T = Time to maturity in years.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I use this for American options?</h3>
+                <p>No, this calculator is specifically for European-style options. American options can be exercised at any time before expiration and require different pricing models.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What volatility should I use?</h3>
+                <p>Historical volatility is calculated from past price movements. Implied volatility is derived from market option prices. Both can affect the model's accuracy.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Contact -->
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Get In Touch</h2>
+            
+            <p>Have questions or need assistance? Reach out using the contact information below:</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <a href="mailto:tsenangthatayotlhe04@gmail.com" class="contact-link">tsenangthatayotlhe04@gmail.com</a>
+                </div>
+                
+                <div class="contact-item">
+                    <h3>Phone</h3>
+                    <a href="tel:+267776259997" class="contact-link">+267 77 625 997</a>
+                </div>
+            </div>
+            
+            <p class="contact-note">I'll get back to you as soon as possible!</p>
+        </div>
+    </div>
+
+    <!-- Modal: Feedback -->
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Share Feedback</h2>
+            
+            <form class="feedback-form" id="feedbackForm">
+                <div class="form-group">
+                    <label for="feedbackType">Feedback Type</label>
+                    <select id="feedbackType">
+                        <option value="">Select type...</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="feature">Feature Request</option>
+                        <option value="improvement">Improvement</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedbackEmail">Email (optional)</label>
+                    <input type="email" id="feedbackEmail" placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="feedbackMessage">Your Feedback</label>
+                    <textarea id="feedbackMessage" rows="6" placeholder="Tell us what you think..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">Send Feedback</button>
+            </form>
+
+            <p class="feedback-note">Thank you for helping us improve Project Nexus!</p>
+        </div>
+    </div>
+
+    <!-- Modal: About -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>About Project Nexus</h2>
+            
+            <p><strong>Project Nexus</strong> is a collection of financial tools and educational resources designed to make complex quantitative finance concepts accessible and intuitive.</p>
+
+            <h3>About This Tool</h3>
+            <p>This Black-Scholes calculator is an educational implementation of the famous option pricing model developed by Fischer Black, Myron Scholes, and Robert Merton in 1973. It provides theoretical option prices for European-style options.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li>Real-time option pricing calculations</li>
+                <li>Support for both call and put options</li>
+                <li>Clean, intuitive user interface</li>
+                <li>Educational explanations and formulas</li>
+                <li>Fully responsive design</li>
+            </ul>
+
+            <h3>Disclaimer</h3>
+            <p>This tool is provided for educational purposes only. It should not be used as the sole basis for investment decisions. Always consult with a qualified financial advisor before trading.</p>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+    </div> <!-- Close app-wrapper -->
+
+    <script src="script.js"></script>
+</body>
+</html>
