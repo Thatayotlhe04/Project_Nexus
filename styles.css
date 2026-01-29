@@ -1,0 +1,921 @@
+/* ===== Reset & Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+}
+
+/* ===== Color Palette ===== */
+:root {
+    --primary: #0d47a1;
+    --primary-light: #3d5afe;
+    --primary-lighter: #6b8fdb;
+    --accent: #7c3aed;
+    --accent-light: #a78bfa;
+    --secondary: #06b6d4;
+    --success: #059669;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --bg-white: #ffffff;
+    --bg-light: #f8f9fa;
+    --bg-lighter: #f3f4f6;
+    --border: #e5e7eb;
+    --border-light: #f0f1f3;
+}
+
+/* ===== Layout ===== */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+}
+
+/* ===== Sidebar ===== */
+
+.sidebar-header {
+    padding: 32px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--bg-white);
+    font-weight: 600;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar-logo:hover {
+    opacity: 0.8;
+}
+
+.logo-icon {
+    font-size: 28px;
+    opacity: 0.95;
+}
+
+.logo-text {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 24px 12px;
+    overflow-y: auto;
+}
+
+.nav-section {
+    margin-bottom: 16px;
+}
+
+.nav-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 12px 12px 8px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 12px;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--bg-white);
+}
+
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--bg-white);
+}
+
+.nav-icon {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.nav-text {
+    flex: 1;
+}
+
+.nav-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 12px 0;
+}
+
+.sidebar-footer {
+    padding: 20px 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-version,
+.footer-year {
+    margin: 4px 0;
+}
+
+/* ===== Main Container ===== */
+.app-container {
+    flex: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+
+.app-container.sidebar-collapsed {
+    margin-left: 0;
+}
+
+/* ===== Sidebar States ===== */
+.app-sidebar {
+    width: 260px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: var(--bg-white);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    transition: transform 0.3s ease, width 0.3s ease;
+}
+
+.app-sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+/* ===== Floating Toggle Button ===== */
+.sidebar-toggle-floating {
+    position: fixed;
+    left: 0;
+    top: 20px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border-radius: 0 12px 12px 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.sidebar-toggle-floating.show {
+    display: flex;
+}
+
+.sidebar-toggle-floating:hover {
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.25);
+    left: 2px;
+}
+
+.toggle-icon {
+    font-size: 28px;
+    color: var(--bg-white);
+    opacity: 0.9;
+}
+
+.app-header {
+    background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-lighter) 100%);
+    padding: 40px 24px 32px;
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.header-title-group {
+    margin-bottom: 8px;
+}
+
+.app-header h1 {
+   font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 20px;
+  font-style: normal; 
+}
+
+.brand-subtitle {
+    display: none;
+}
+
+.tagline {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.2px;
+}
+
+.app-main {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 40px 24px;
+}
+
+.app-footer {
+    border-top: 1px solid var(--border-light);
+    background-color: var(--bg-white);
+    padding: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: 260px;
+}
+
+.app-footer p {
+    margin: 0;
+}
+
+/* ===== Calculator Layout (Two Column) ===== */
+.calculator-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+/* ===== Panel Styling ===== */
+.panel {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+}
+
+.panel:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.panel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    letter-spacing: 0.2px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+}
+
+/* ===== Input Panel ===== */
+.input-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.label-text {
+    flex: 1;
+}
+
+.label-symbol {
+    font-size: 12px;
+    color: var(--accent);
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-weight: 600;
+}
+
+input[type="number"] {
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg-lighter);
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+input[type="number"]:hover {
+    border-color: var(--primary-lighter);
+    background-color: var(--bg-white);
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: var(--bg-white);
+    box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+}
+
+input[type="number"]::placeholder {
+    color: #cbd5e1;
+}
+
+/* ===== Output Panel ===== */
+.output-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.result-card {
+    background: linear-gradient(135deg, var(--bg-lighter) 0%, var(--bg-white) 100%);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    transition: all 0.2s ease;
+}
+
+.result-card:hover {
+    border-color: var(--secondary);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.08);
+}
+
+.result-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.result-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+    font-family: 'Monaco', 'Courier New', monospace;
+}
+
+/* ===== Info Sections (Collapsible) ===== */
+.info-section {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.section-toggle {
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.section-toggle:hover {
+    background-color: var(--bg-lighter);
+}
+
+.section-toggle .toggle-label {
+    flex: 1;
+    text-align: left;
+}
+
+.section-toggle .toggle-icon {
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+    font-size: 12px;
+}
+
+.section-toggle:not(.expanded) .toggle-icon {
+    transform: rotate(0deg);
+}
+
+.section-toggle.expanded .toggle-icon {
+    transform: rotate(90deg);
+}
+
+.section-content {
+    padding: 0 24px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.section-content.collapsed {
+    max-height: 0;
+    padding: 0 24px;
+}
+
+.section-content:not(.collapsed) {
+    max-height: 2000px;
+    padding: 0 24px 24px;
+}
+
+/* ===== Formula Styling ===== */
+.formula-group {
+    margin-bottom: 20px;
+}
+
+.formula-group h3 {
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.formula-box {
+    background: linear-gradient(135deg, var(--bg-lighter) 0%, var(--bg-light) 100%);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 13px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    color: var(--text-dark);
+    line-height: 1.8;
+    overflow-x: auto;
+}
+
+/* ===== Assumptions List ===== */
+.assumptions-list {
+    list-style: none;
+    margin-top: 8px;
+}
+
+.assumptions-list li {
+    padding: 8px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 20px;
+}
+
+.assumptions-list li:before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+}
+
+/* ===== Disclaimer ===== */
+.disclaimer {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 0;
+}
+
+.disclaimer strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.disclaimer p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ===== Modal Styles ===== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--bg-white);
+    border-radius: 16px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 2001;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-content {
+    padding: 40px;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: var(--text-dark);
+}
+
+.modal-content h2 {
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+.modal-content h3 {
+    font-size: 15px;
+    color: var(--text-dark);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.modal-content p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.modal-content ul {
+    list-style: none;
+    padding: 0;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.modal-content li {
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+}
+
+.modal-content li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: bold;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+}
+
+.modal-overlay.show {
+    display: block;
+}
+
+/* ===== Feedback Form ===== */
+.feedback-form {
+    margin: 24px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-dark);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.form-group select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+}
+
+.submit-button {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: var(--bg-white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(13, 71, 161, 0.2);
+}
+
+.feedback-note {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+/* ===== Contact Info ===== */
+.contact-info {
+    margin: 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-item {
+    padding: 16px;
+    background: var(--bg-lighter);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary);
+}
+
+.contact-item h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.contact-link {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.contact-link:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.contact-note {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1024px) {
+    .app-sidebar {
+        width: 240px;
+    }
+
+    .app-container,
+    .app-footer {
+        margin-left: 240px;
+    }
+
+    .calculator-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .app-main {
+        padding: 32px 20px;
+    }
+}
+
+@media (max-width: 900px) {
+    .app-sidebar {
+        width: 220px;
+    }
+
+    .app-container,
+    .app-footer {
+        margin-left: 220px;
+    }
+
+    .panel {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-sidebar {
+        width: 200px;
+    }
+
+    .app-container,
+    .app-footer {
+        margin-left: 200px;
+    }
+
+    .app-header {
+        padding: 32px 20px 24px;
+    }
+
+    .app-header h1 {
+        font-size: 24px;
+    }
+
+    .brand-subtitle {
+        font-size: 11px;
+    }
+
+    .tagline {
+        font-size: 13px;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    .panel-title {
+        font-size: 15px;
+        margin-bottom: 16px;
+    }
+
+    .result-value {
+        font-size: 24px;
+    }
+
+    .modal {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .modal-content {
+        padding: 32px 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .app-sidebar {
+        width: 180px;
+        padding: 0;
+    }
+
+    .sidebar-header {
+        padding: 24px 16px;
+    }
+
+    .sidebar-nav {
+        padding: 16px 8px;
+    }
+
+    .nav-section-title {
+        font-size: 10px;
+        padding: 10px 8px 6px;
+    }
+
+    .nav-link {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .sidebar-footer {
+        padding: 16px 8px;
+        font-size: 11px;
+    }
+
+    .app-container,
+    .app-footer {
+        margin-left: 180px;
+    }
+
+    .app-header h1 {
+        font-size: 20px;
+    }
+
+    .app-header {
+        padding: 24px 16px 20px;
+    }
+
+    .app-main {
+        padding: 20px 16px;
+    }
+
+    .app-footer {
+        padding: 16px;
+    }
+
+    .calculator-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .panel {
+        padding: 16px;
+    }
+
+    .section-toggle {
+        padding: 16px 16px;
+    }
+
+    .formula-box {
+        font-size: 12px;
+        padding: 12px;
+    }
+
+    .result-value {
+        font-size: 20px;
+    }
+
+    .modal {
+        max-height: 95vh;
+    }
+
+    .modal-content {
+        padding: 28px 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+}
